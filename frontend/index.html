@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет-магазин</title>
+    <style>
+        /* Основной стиль страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .product {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+        }
+
+        .product h3 {
+            color: #333;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .product .price {
+            color: #e74c3c;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product .categories {
+            color: #555;
+            font-style: italic;
+        }
+
+        .product .description {
+            color: #777;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Товары магазина
+    </header>
+
+    <section class="product-container" id="product-list">
+        <!-- Здесь будут отображаться товары -->
+    </section>
+
+    <script>
+        fetch('http://localhost:3000/shop/products')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('product-list');
+                data.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.classList.add('product');
+                    productItem.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p class="price">Цена: ${product.price} ₽</p>
+                        <p class="description">Описание: ${product.description}</p>
+                        <p class="categories"> ${product.categories.join(', ')}</p>
+                    `;
+                    productList.appendChild(productItem);
+                });
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    </script>
+</body>
+</html>
